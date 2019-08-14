@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean class = "cn.imoc.java.ruanqunfeng.bean.AnotherBean" id = "anotherBean" scope="prototype" />
+
+    <bean class="cn.imoc.java.ruanqunfeng.bean.Bean" id="bean" scope="prototype"
+    init-method="init" destroy-method="destroy">
+        <!--<constructor-arg index="0" name = "aLong" type="long" value="123" />
+        <constructor-arg index="1" name="anotherBean" type="cn.imoc.java.ruanqunfeng.bean.AnotherBean" ref="anotherBean" />
+        -->
+    
+        <property name="aLong" value="222" />
+        <property name="anotherBean" ref="anotherBean" />
+
+        <property name="anotherBeanList">
+            <list>
+                <bean class="cn.imoc.java.ruanqunfeng.bean.AnotherBean" />
+                <ref bean="anotherBean" />
+            </list>
+        </property>
+        <property name="list" >
+            <list>
+                <value>sss</value>
+                <value>fff</value>
+            </list>
+        </property>
+        <property name="beanHashMap" >
+            <map>
+                <entry key="123" value-ref="anotherBean"/>
+                <entry key="333" value-ref="anotherBean"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id = "factoryBean" class="com.wiley.beginning.spring.ch2.FooFactoryBean" />
+
+
+    
+
+
+</beans>
