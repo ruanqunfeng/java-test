@@ -1,10 +1,12 @@
 package cn.imoc.java.ruanqunfeng.javareflect;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class ClassUtil {
     /**
-     * 打印类的信息，包括类的成员函数、成员变量
+     * 打印类的信息，包括类的成员函数、成员变量(只获取成员函数)
      * @param obj
      */
     public static void printClassMessage(Object obj) {
@@ -31,8 +33,79 @@ public class ClassUtil {
             for (Class paramType : paramTypes) {
                 System.out.println(paramType.getName() + ",");
             }
+            System.out.println(")");
+            printFieldMessage(c);
 
 
         }
     }
+
+    /**
+     * 获取成员变量的信息
+     * @param obj
+     */
+    public static void printFieldMessage(Object obj) {
+        Class c = obj.getClass();
+        /**
+         * 成员变量也是对象
+         * java.lang.reflect.Field
+         * Field类封装了关于成员变量的操作
+         * getFields()方法获取的是所有的public的成员变量的信息
+         * getDeclaredFields获取的是该类自己声明的成员变量的信息
+         *
+         */
+        // Field[] fs = c.getFields();
+        Field[] fs = c.getDeclaredFields();
+        for (Field field : fs) {
+            // 得到成员变量的类型的类类型
+            Class fieldType = field.getType();
+            String typeName = fieldType.getName();
+            // 得到成员变量的名称
+            String fieldName = field.getName();
+            System.out.println(typeName + " " + fieldName);
+        }
+    }
+
+    /**
+     * 打印对象构造函数的信息
+     * @param object
+     */
+    public static void printConMessage(Object object) {
+        Class c = object.getClass();
+        /**
+         * 构造函数也是对象
+         * java.lang.Constructor中封装了构造函数的信息
+         * getConstructors获取所有的public的构造函数
+         * getDeclaredConstructors得到所有的构造函数
+         */
+        //Constructor[] cs = c.getConstructors();
+        Constructor[] cs = c.getDeclaredConstructors();
+        for (Constructor constructor : cs) {
+            System.out.print(constructor.getName() + "(");
+            //获取构造函数的参数列表--->得到的是参数列表的类类型
+            Class[] paramTypes = constructor.getParameterTypes();
+            for (Class paramType : paramTypes) {
+                System.out.print(paramType.getName() + ",");
+            }
+            System.out.println(")");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
