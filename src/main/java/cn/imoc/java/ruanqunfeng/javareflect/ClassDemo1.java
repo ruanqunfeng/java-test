@@ -1,8 +1,27 @@
 package cn.imoc.java.ruanqunfeng.javareflect;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 class Foo{
+    public Foo() {
+
+    }
+    private Foo(int id) {
+        this.id = id;
+    }
+    private int id = 0;
+    public int getId() {
+        return id;
+    }
     void print() {
         System.out.println("true = " + true);
+    }
+    private void print1() {
+        System.out.println("id = " + id);
     }
 }
 
@@ -36,6 +55,20 @@ public class ClassDemo1 {
 
         // 我们完全可以通过类的类类型创建该类的对象实例----》通过 c1 or c2 or c3创建Foo的实例对象
         Foo foo = (Foo)c1.newInstance();
+        System.out.println(foo.getId());
         foo.print();
+        Field idField = c1.getDeclaredField("id");
+        idField.setAccessible(true);
+        idField.set(foo,new Integer(3));// success
+        System.out.println(foo.getId());
+
+        Method print1 = c1.getDeclaredMethod("print1");
+        print1.setAccessible(true);
+        print1.invoke(foo);
+
+        Constructor declaredConstructor = c3.getDeclaredConstructor(int.class);// error Inetger.class
+        declaredConstructor.setAccessible(true);
+        Foo foo2 = (Foo)declaredConstructor.newInstance(100);
+        System.out.println(foo2.getId());
     }
 }
