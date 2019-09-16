@@ -39,7 +39,10 @@
 
     <bean id = "factoryBean" class="com.wiley.beginning.spring.ch2.FooFactoryBean" />
 
-
+    <bean id="helloService" class="com.spring.HelloService" />
+    <bean id="helloFactoryBean" class="com.spring.HelloServiceBean">
+        <property name="helloServicel" ref="helloService"></property>
+    </bean>
     
 
 
